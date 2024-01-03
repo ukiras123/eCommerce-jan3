@@ -6,4 +6,4 @@ function ForgetPassword() {
     )
 }
 
-export default ForgetPassword
+export default ForgetPassword;

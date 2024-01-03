@@ -6,4 +6,4 @@ function PaymentOption() {
     )
 }
 
-export default PaymentOption
+export default PaymentOption;
