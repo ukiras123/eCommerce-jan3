@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, Form } from 'react-bootstrap';
 import BaseLayout from '../../components/layout/BaseLayout';
 import CustomInput from '../../components/layout/customInput/CustomInput';
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import { createAdminAction } from '../../redux/auth/userAction';
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const inputFields = [
@@ -49,15 +53,43 @@ function Register() {
       minLength: 6
     }
   ]
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    role: "admin"
+  });
+
+  const handleOnChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    })
+  }
+
+  const handleOnSubmit = (e) => {
+    // Prevent page from refreshing
+    e.preventDefault();
+
+    // Validation on form data
+    // Password and confirmPass Matches
+    const { password, confirmPassword } = formData;
+    if (password !== confirmPassword) {
+      toast.error("Password should match");
+      return;
+    }
+    dispatch(createAdminAction(formData, navigate))
+  }
+
   return (
     <BaseLayout>
       <div>
-        <Form className='login-form mt-3 mb-3 border p-4 rounded shadow-lg'>
+        <Form onSubmit={handleOnSubmit} className='login-form mt-3 mb-3 border p-4 rounded shadow-lg'>
           {inputFields.map(field => {
-            return <CustomInput key={field.label} {...field} />
+            return <CustomInput key={field.label} {...field} onChange={handleOnChange} />
           })}
 
-          <Button variant="primary" type="submit">
+          <Button variant="primary" type="submit" >
             Register
           </Button>
         </Form>

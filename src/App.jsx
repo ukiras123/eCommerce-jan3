@@ -11,7 +11,9 @@ import Order from './pages/order/Order'
 import PaymentOption from './pages/payment-option/PaymentOption'
 import Profile from './pages/profile/Profile'
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
+import { ToastContainer } from 'react-toastify'
 
 
 function App() {
@@ -36,7 +38,7 @@ function App() {
         <Route path='*' element={<Login />}></Route>
 
       </Routes>
-
+      <ToastContainer />
     </>
   )
 }
