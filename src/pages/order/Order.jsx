@@ -1,8 +1,11 @@
 import React from 'react'
+import AdminLayout from '../../components/layout/AdminLayout';
 
 function Order() {
     return (
-        <div>Order</div>
+        <AdminLayout title="Order">
+            TODO
+        </AdminLayout>
     )
 }
 

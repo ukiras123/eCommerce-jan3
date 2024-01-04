@@ -14,6 +14,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 import { ToastContainer } from 'react-toastify'
+import PrivateRoute from './components/privateRoute/PrivateRoute'
 
 
 function App() {
@@ -27,14 +28,14 @@ function App() {
         <Route path='/forget-password' element={<ForgetPassword />}></Route>
 
         {/* Private Routes */}
-        <Route path='/register' element={<Register />}></Route>
-        <Route path='/category' element={<Category />}></Route>
-        <Route path='/client' element={<Client />}></Route>
-        <Route path='/product' element={<Product />}></Route>
-        <Route path='/dashboard' element={<Dashboard />}></Route>
-        <Route path='/order' element={<Order />}></Route>
-        <Route path='/payment-option' element={<PaymentOption />}></Route>
-        <Route path='/profile' element={<Profile />}></Route>
+        <Route path='/register' element={<PrivateRoute><Register /></PrivateRoute>}></Route>
+        <Route path='/category' element={<PrivateRoute><Category /></PrivateRoute>}></Route>
+        <Route path='/client' element={<PrivateRoute><Client /></PrivateRoute>}></Route>
+        <Route path='/product' element={<PrivateRoute><Product /></PrivateRoute>}></Route>
+        <Route path='/dashboard' element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
+        <Route path='/order' element={<PrivateRoute><Order /></PrivateRoute>}></Route>
+        <Route path='/payment-option' element={<PrivateRoute><PaymentOption /></PrivateRoute>}></Route>
+        <Route path='/profile' element={<PrivateRoute><Profile /></PrivateRoute>}></Route>
         <Route path='*' element={<Login />}></Route>
 
       </Routes>

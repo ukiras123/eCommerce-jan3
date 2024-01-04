@@ -1,8 +1,30 @@
 import React from 'react'
+import Header from './Header'
+import Footer from './Footer'
+import SideBar from './SideBar'
 
-function AdminLayout() {
+function AdminLayout({ children, title }) {
     return (
-        <div>AdminLayout</div>
+        <div>
+            <div className='d-flex'>
+                <div className="left w-25 bg-dark text-light">
+                    <SideBar />
+                </div>
+                <div className="right w-75">
+                    <Header></Header>
+
+                    <div className="main">
+                        <h2 className='px-2 pt-3'>{title}</h2>
+                        <hr />
+                        {children}
+                    </div>
+                    <Footer />
+                </div>
+
+            </div>
+            {/* <div>{children}</div> */}
+        </div>
+
     )
 }
 

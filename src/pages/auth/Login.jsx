@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import BaseLayout from '../../components/layout/BaseLayout'
 import { Button, Form } from 'react-bootstrap';
-import CustomInput from '../../components/layout/customInput/CustomInput';
+import CustomInput from '../../components/customInput/CustomInput';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { loginAdminAction } from '../../redux/auth/userAction';
@@ -35,7 +35,7 @@ function Login() {
         if (user?.uid) {
             navigate("/dashboard")
         }
-    }, [user])
+    }, [user, navigate])
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;

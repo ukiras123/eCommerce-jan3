@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import BaseLayout from '../../components/layout/BaseLayout'
 import { Button, Form } from 'react-bootstrap';
-import CustomInput from '../../components/layout/customInput/CustomInput';
+import CustomInput from '../../components/customInput/CustomInput';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { resetPasswordAction } from '../../redux/auth/userAction';

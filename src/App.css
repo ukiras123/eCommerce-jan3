@@ -6,3 +6,11 @@
     max-width: 400px;
     margin: auto;
 }
+
+.side-links li:hover,
+.active {
+    background-color: aliceblue;
+    color: rgb(55, 52, 52);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
