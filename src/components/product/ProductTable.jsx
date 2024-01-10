@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { deleteProductAction } from '../../redux/product/productAction';
+import { Link } from 'react-router-dom';
 
 function ProductTable() {
   const dispatch = useDispatch();
@@ -28,7 +29,9 @@ function ProductTable() {
               <td>${p.price}</td>
               <td>{p.quantity}</td>
               <td>
-                <Button variant='warning'>Edit</Button>
+                <Link to={`/product/edit/${p.slug}`}>
+                  <Button variant='warning'>Edit</Button>
+                </Link>
                 <Button onClick={() => {
                   if (window.confirm("Do you want to delete?")) {
                     dispatch(deleteProductAction(p))

@@ -19,6 +19,7 @@ import AddNewProduct from './pages/product/AddNewProduct'
 import { getAllCategoriesAction } from './redux/category/categoryAction'
 import { useDispatch } from 'react-redux'
 import { getAllProductsAction } from './redux/product/productAction'
+import EditProduct from './pages/product/EditProduct'
 
 
 function App() {
@@ -41,6 +42,7 @@ function App() {
         <Route path='/client' element={<PrivateRoute><Client /></PrivateRoute>}></Route>
         <Route path='/product' element={<PrivateRoute><Product /></PrivateRoute>}></Route>
         <Route path='/product/new' element={<PrivateRoute><AddNewProduct /></PrivateRoute>}></Route>
+        <Route path='/product/edit/:slug' element={<PrivateRoute><EditProduct /></PrivateRoute>}></Route>
         <Route path='/dashboard' element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
         <Route path='/order' element={<PrivateRoute><Order /></PrivateRoute>}></Route>
         <Route path='/payment-option' element={<PrivateRoute><PaymentOption /></PrivateRoute>}></Route>
