@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import Login from './pages/auth/Login'
 import ForgetPassword from './pages/auth/ForgetPassword'
@@ -15,10 +15,18 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css'
 import { ToastContainer } from 'react-toastify'
 import PrivateRoute from './components/privateRoute/PrivateRoute'
+import AddNewProduct from './pages/product/AddNewProduct'
+import { getAllCategoriesAction } from './redux/category/categoryAction'
+import { useDispatch } from 'react-redux'
+import { getAllProductsAction } from './redux/product/productAction'
 
 
 function App() {
-
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getAllCategoriesAction())
+    dispatch(getAllProductsAction())
+  }, [])
   return (
     <>
       <Routes>
@@ -32,6 +40,7 @@ function App() {
         <Route path='/category' element={<PrivateRoute><Category /></PrivateRoute>}></Route>
         <Route path='/client' element={<PrivateRoute><Client /></PrivateRoute>}></Route>
         <Route path='/product' element={<PrivateRoute><Product /></PrivateRoute>}></Route>
+        <Route path='/product/new' element={<PrivateRoute><AddNewProduct /></PrivateRoute>}></Route>
         <Route path='/dashboard' element={<PrivateRoute><Dashboard /></PrivateRoute>}></Route>
         <Route path='/order' element={<PrivateRoute><Order /></PrivateRoute>}></Route>
         <Route path='/payment-option' element={<PrivateRoute><PaymentOption /></PrivateRoute>}></Route>

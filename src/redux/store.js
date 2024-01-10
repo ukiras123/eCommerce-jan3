@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 
 import userReducer from './auth/userSlice'
 import categoryReducer from './category/categorySlice'
+import productReducer from './product/productSlice'
 
 
 const persistConfig = {
@@ -16,6 +17,7 @@ const persistedUserReducer = persistReducer(persistConfig, userReducer);
 export const store = configureStore({
     reducer: {
         userInfo: persistedUserReducer,
-        category: categoryReducer
+        category: categoryReducer,
+        product: productReducer
     }
 })

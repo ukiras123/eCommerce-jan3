@@ -10,10 +10,6 @@ function CategoryTable() {
     const { categoryList } = useSelector(state => state.category)
     const [selectedCat, setSelectedCat] = useState({});
 
-    useEffect(() => {
-        dispatch(getAllCategoriesAction())
-    }, [])
-
     const handleOnEdit = (catInfo) => {
         setSelectedCat(catInfo)
     }
