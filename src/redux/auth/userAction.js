@@ -3,6 +3,7 @@ import { toast } from "react-toastify"
 import { auth, db } from "../../firebase-config/config"
 import { doc, getDoc, setDoc } from "firebase/firestore"
 import { setUser } from "./userSlice"
+import { DB_NAMES } from "../../utils"
 
 export const createAdminAction = (userInfo, navigate) => async () => {
     try {
@@ -13,7 +14,7 @@ export const createAdminAction = (userInfo, navigate) => async () => {
         const userId = user.uid;
         // DB
         const { password, confirmPassword, ...rest } = userInfo;
-        const setDocPromise = setDoc(doc(db, "users", userId), rest)
+        const setDocPromise = setDoc(doc(db, DB_NAMES.USERS, userId), rest)
         toast.promise(setDocPromise, {
             pending: "In Progress"
         })
@@ -57,7 +58,7 @@ export const loginAdminAction = (email, password) => async dispatch => {
 // Grab the userInfo from DB and set the object to slice
 export const getUserInfoAction = (uid) => async dispatch => {
     try {
-        const userSnap = await getDoc(doc(db, "users", uid))
+        const userSnap = await getDoc(doc(db, DB_NAMES.USERS, uid))
         if (userSnap.exists()) {
             const userData = userSnap.data();
             const userInfo = { ...userData, uid }

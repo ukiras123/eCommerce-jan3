@@ -14,3 +14,15 @@
     border-top-left-radius: 10px;
     border-bottom-left-radius: 10px;
 }
+
+.status-active {
+    background-color: rgb(29, 159, 29);
+    padding: 4px 8px;
+    border-radius: 10px;
+}
+
+.status-inactive {
+    background-color: rgb(245, 60, 60);
+    padding: 4px 8px;
+    border-radius: 10px;
+}
