@@ -24,7 +24,7 @@ function ProductTable() {
           {productList.map((p, i) => {
             return <tr key={p.slug}>
               <td>{i + 1}</td>
-              <td>...</td>
+              <td><img src={p.thumbnail} width={"100px"} /></td>
               <td>{p.name}</td>
               <td>${p.price}</td>
               <td>{p.quantity}</td>

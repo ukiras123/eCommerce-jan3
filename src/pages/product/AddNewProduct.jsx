@@ -1,11 +1,15 @@
 import React, { useState } from 'react'
 import AdminLayout from '../../components/layout/AdminLayout'
 import { Link } from 'react-router-dom'
-import { Button, Form } from 'react-bootstrap'
+import { Button, Form, ProgressBar } from 'react-bootstrap'
 import CustomInput from '../../components/customInput/CustomInput'
 import { useDispatch, useSelector } from 'react-redux'
 import slugify from 'slugify'
 import { addOrUpdateProductAction } from '../../redux/product/productAction'
+import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable } from 'firebase/storage'
+import { storage } from '../../firebase-config/config'
+import { toast } from 'react-toastify'
+import { handleFileUpload } from '../../utils'
 
 function AddNewProduct() {
     const inputFields = [
@@ -51,6 +55,8 @@ function AddNewProduct() {
     const dispatch = useDispatch();
     const [formData, setFormData] = useState({
     })
+    const [progress, setProgress] = useState(0)
+    const [files, setFiles] = useState([]);
     const handleOnChange = (e) => {
         const { value, name } = e.target;
         setFormData({
@@ -58,15 +64,75 @@ function AddNewProduct() {
             [name]: value
         })
     }
-    const handleOnSubmit = (e) => {
+    const handleImageAttachment = (e) => {
+        const { files } = e.target;
+        setFiles([...files])
+    }
+
+    const uploadFiles = async (file) => {
+        const storageRef = ref(storage, `image/${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        return await getDownloadURL(snapshot.ref)
+    }
+
+    // One way to handle on submit with promise and all / NO Progress Bar
+    const handleOnSubmit2 = async (e) => {
         e.preventDefault();
-        console.log("Submitting", formData)
-        const slug = slugify(formData.name, {
-            lower: true,
-            trim: true
-        });
-        const finalData = { ...formData, slug }
-        dispatch(addOrUpdateProductAction(finalData))
+        try {
+            const slug = slugify(formData.name, {
+                lower: true,
+                trim: true
+            });
+            // Before actually updating DB
+            // Upload the file to storage , grab the URL
+            let fileUrl = [];
+            // if (files) {
+            //     files.forEach(async file => {
+            //         const tempUrl = await uploadFiles(file)
+            //         fileUrl.push(tempUrl)
+            //     })
+            // }
+            if (files) {
+                const filePromise = files.map(file => uploadFiles(file))
+                fileUrl = await Promise.all(filePromise);
+            }
+            let finalData = { ...formData, slug, images: fileUrl }
+            // Then update finalData and push to DB
+            dispatch(addOrUpdateProductAction(finalData))
+        } catch (e) {
+            toast.error(`Something went wrong ${e.message}`)
+            console.log(e)
+        }
+
+    }
+
+
+    const handleOnSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const slug = slugify(formData.name, {
+                lower: true,
+                trim: true
+            });
+            // Before actually updating DB
+            // Upload the file to storage , grab the URL
+            let fileUrls = [];
+            if (files.length > 0) {
+                const filePromise = files.map(file => handleFileUpload(file, setProgress))
+                // const filePromise = []
+                // files.forEach(file => {
+                //     const uploadPromise = handleFileUpload(file, setProgress);
+                //     filePromise.push(uploadPromise)
+                // })
+                fileUrls = await Promise.all(filePromise);
+            }
+
+            let finalData = { ...formData, slug, images: fileUrls, thumbnail: fileUrls[0] }
+            dispatch(addOrUpdateProductAction(finalData))
+        } catch (e) {
+            toast.error(`Something went wrong ${e.message}`)
+            console.log(e)
+        }
 
     }
     return (
@@ -90,7 +156,8 @@ function AddNewProduct() {
                     })}
 
                     <Form.Group className="mb-3">
-                        <Form.Control multiple type="file" accept='image/png, image/jpeg' />
+                        <Form.Control required multiple type="file" accept='image/png, image/jpeg' onChange={handleImageAttachment} />
+                        {progress !== 100 ? <ProgressBar animated now={progress} label={`${progress.toFixed(2)}%`} /> : <ProgressBar variant='success' now={100} visuallyHidden />}
                     </Form.Group>
                     <Button variant="primary" type="submit">
                         Add
