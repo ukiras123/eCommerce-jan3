@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Button, Form, Table } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
-import { addOrUpdateCategoryAction, deleteCategoryAction, getAllCategoriesAction } from '../../redux/category/categoryAction';
-import slugify from 'slugify';
+import { addOrUpdateCategoryAction, deleteCategoryAction } from '../../redux/category/categoryAction';
 
 function CategoryTable() {
     const dispatch = useDispatch();
@@ -26,7 +25,6 @@ function CategoryTable() {
     }
     const handleOnChange = (e) => {
         let { name, value, checked } = e.target;
-        console.log(name, value, checked)
         if (name === 'status') {
             // setFormData({
             //     ...formData,

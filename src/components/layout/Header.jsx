@@ -10,7 +10,6 @@ function Header() {
     const { user } = useSelector(state => state.userInfo)
     const dispatch = useDispatch();
     const handleLogout = () => {
-        console.log("I am logged out")
         // Logout, clear firebase auth session as well as redux state
         signOut(auth).then(() => {
             dispatch(setUser({}))

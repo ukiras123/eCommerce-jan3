@@ -5,7 +5,8 @@ import { toast } from "react-toastify";
 export const DB_NAMES = {
     CATEGORY: "category",
     PRODUCT: 'product',
-    USERS: 'users'
+    USERS: 'users',
+    PAYMENT_OPTION: 'payment_option'
 }
 
 
@@ -24,7 +25,6 @@ export const handleFileUpload = (fileToUpload, setProgress) => {
                 // Observe state change events such as progress, pause, and resume
                 // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
                 const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-                console.log('Upload is ' + progress + '% done');
                 setProgress(progress)
             },
             (e) => {

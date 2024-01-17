@@ -8,7 +8,6 @@ import { DB_NAMES } from "../../utils"
 export const createAdminAction = (userInfo, navigate) => async () => {
     try {
         // Firebase for what
-        console.log("Integrating with firebase", userInfo)
         // Auth
         const { user } = await createUserWithEmailAndPassword(auth, userInfo.email, userInfo.password);
         const userId = user.uid;
