@@ -39,10 +39,11 @@ export const updateProfileAction = ({ uid, ...rest }) => async (dispatch) => {
     }
 }
 
-export const updatePasswordAction = (password) => async (dispatch) => {
+export const updatePasswordAction = (email, oldPassword, password) => async (dispatch) => {
     try {
-        const auth = getAuth();
-        const user = auth.currentUser;
+
+        const { user } = await signInWithEmailAndPassword(auth, email, oldPassword);
+        console.log("User", user)
         const setDocPromise = updatePassword(user, password);
         toast.promise(setDocPromise, {
             pending: "In Progress"
@@ -50,6 +51,9 @@ export const updatePasswordAction = (password) => async (dispatch) => {
         await setDocPromise;
         toast.success("Success");
     } catch (e) {
+        if (e.message.includes('auth/invalid-credential')) {
+            return toast.error("Old Password is incorrect")
+        }
         toast.error(e.message)
     }
 }

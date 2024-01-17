@@ -65,7 +65,15 @@ function Profile() {
     ]
     const passwordFields = [
         {
-            label: "Password *",
+            label: "Old Password *",
+            name: "oldPassword",
+            type: "password",
+            placeholder: "*******",
+            required: true,
+            minLength: 6
+        },
+        {
+            label: "New Password *",
             name: "password",
             type: "password",
             placeholder: "*******",
@@ -73,7 +81,7 @@ function Profile() {
             minLength: 6
         },
         {
-            label: "Confirm Password *",
+            label: "Confirm New Password *",
             name: "confirmPassword",
             type: "password",
             placeholder: "*******",
@@ -82,7 +90,6 @@ function Profile() {
         }
     ]
     const dispatch = useDispatch();
-    const navigate = useNavigate();
     const { user } = useSelector(state => state.userInfo)
     useEffect(() => {
         setFormData(user)
@@ -112,12 +119,12 @@ function Profile() {
     const handleOnPasswordUpdate = (e) => {
         // Prevent page from refreshing
         e.preventDefault();
-        const { password, confirmPassword } = passData;
+        const { oldPassword, password, confirmPassword } = passData;
         if (password !== confirmPassword) {
             toast.error("Password should match");
             return;
         }
-        dispatch(updatePasswordAction(password))
+        dispatch(updatePasswordAction(user.email, oldPassword, password))
     }
 
     return (
