@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, sendPasswordResetEmail, signInWithEmailAndPassword } from "firebase/auth"
+import { createUserWithEmailAndPassword, getAuth, sendPasswordResetEmail, signInWithEmailAndPassword, updatePassword } from "firebase/auth"
 import { toast } from "react-toastify"
 import { auth, db } from "../../firebase-config/config"
 import { doc, getDoc, setDoc } from "firebase/firestore"
@@ -25,6 +25,34 @@ export const createAdminAction = (userInfo, navigate) => async () => {
     }
 }
 
+export const updateProfileAction = ({ uid, ...rest }) => async (dispatch) => {
+    try {
+        const setDocPromise = setDoc(doc(db, DB_NAMES.USERS, uid), rest)
+        toast.promise(setDocPromise, {
+            pending: "In Progress"
+        })
+        await setDocPromise;
+        toast.success("Success");
+        dispatch(getUserInfoAction(uid))
+    } catch (e) {
+        toast.error(e.message)
+    }
+}
+
+export const updatePasswordAction = (password) => async (dispatch) => {
+    try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        const setDocPromise = updatePassword(user, password);
+        toast.promise(setDocPromise, {
+            pending: "In Progress"
+        })
+        await setDocPromise;
+        toast.success("Success");
+    } catch (e) {
+        toast.error(e.message)
+    }
+}
 
 export const resetPasswordAction = (email) => async () => {
     try {

@@ -74,11 +74,11 @@ function Register() {
 
     // Validation on form data
     // Password and confirmPass Matches
-    const { password, confirmPassword } = formData;
-    if (password !== confirmPassword) {
-      toast.error("Password should match");
-      return;
-    }
+      const { password, confirmPassword } = formData;
+      if (password !== confirmPassword) {
+        toast.error("Password should match");
+        return;
+      }
     dispatch(createAdminAction(formData, navigate))
   }
 
@@ -94,8 +94,6 @@ function Register() {
             Register
           </Button>
         </Form>
-
-
       </div>
     </AdminLayout>
   )

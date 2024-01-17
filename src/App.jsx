@@ -20,10 +20,22 @@ import { getAllCategoriesAction } from './redux/category/categoryAction'
 import { useDispatch } from 'react-redux'
 import { getAllProductsAction } from './redux/product/productAction'
 import EditProduct from './pages/product/EditProduct'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { setUser } from './redux/auth/userSlice'
 
 
 function App() {
   const dispatch = useDispatch();
+  const auth = getAuth();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      const uid = user.uid;
+      console.log("User has been logged in -> ", uid)
+    } else {
+      console.log("User has been logged out")
+      dispatch(setUser({}))
+    }
+  });
   useEffect(() => {
     dispatch(getAllCategoriesAction())
     dispatch(getAllProductsAction())
